@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-    skip_before_action :authorized, only: :created
+    # skip_before_action :authorized, only: :created
 
     def index
         session[:session_hello] ||= "World"
@@ -8,6 +8,7 @@ class SessionsController < ApplicationController
     end
 
     # look up a user in the database, verify their login credentials, and then store the authenticated user's id in the session:
+    # login route 
     def create
         user = User.find_by(email: params[:email])
         if user&.authenticate(params[:password])
@@ -19,9 +20,10 @@ class SessionsController < ApplicationController
     end
 
     # clears the email out of the session
+    # logout route
     def destroy
         session.delete :user_id
         head :no_content
-      end
+    end
 
 end
