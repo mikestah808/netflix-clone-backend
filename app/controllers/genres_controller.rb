@@ -1,5 +1,5 @@
 class GenresController < ApplicationController
-  before_action :set_genre, only: %i[ show update destroy ]
+  # before_action :authorize
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
 
   # GET /genres
@@ -11,13 +11,15 @@ class GenresController < ApplicationController
   # GET /genres/1
   def show
     genre = find_genre
-    render json: genre
+    render json: genre, include: :movies
   end
 
   # POST /genres
   def create
-    genre = Genre.create(genre_params)
+    genre = Genre.create!(genre_params)
     render json: genre, status: :created
+  rescue ActiveRecord::RecordInvalid => e
+    render json: { errors: e.record.errors.full_messages }, status: :unprocessable_entity
   end
 
   # PATCH/PUT /genres/1
@@ -36,13 +38,13 @@ class GenresController < ApplicationController
 
   private
     
-    def find_bird
+    def find_genre
       Genre.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def genre_params
-      params.require(:genre).permit(:action, :comedy, :drama, :horror, :romance, :thriller)
+      params.permit(:genre)
     end
 
     def render_not_found_response

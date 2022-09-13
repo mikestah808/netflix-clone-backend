@@ -5,4 +5,5 @@ class Movie < ApplicationRecord
 
   # Validations
   validates_presence_of :title, :description, :image_url, :release_date
+  validates_uniqueness_of :title, :image_url
 end

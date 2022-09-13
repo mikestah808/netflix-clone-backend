@@ -1,5 +1,5 @@
 class MoviesController < ApplicationController
-  before_action :set_movie, only: %i[ show update destroy ]
+  # before_action :authorize
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
 
   # GET /movies
@@ -16,8 +16,10 @@ class MoviesController < ApplicationController
 
   # POST /movies
   def create
-    movie = Movie.create(movie_params)
+    movie = Movie.create!(movie_params)
     render json: movie, status: :created
+  rescue ActiveRecord::RecordInvalid => e
+    render json: { errors: e.record.errors.full_messages }, status: :unprocessable_entity
   end
 
   # PATCH/PUT /movies/1
@@ -42,7 +44,7 @@ class MoviesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def movie_params
-      params.require(:movie).permit(:title, :genre, :description, :image_url, :release_date, :like, :dislike, :user_id, :genre_id, :user_id, :genre_id)
+      params.permit(:title, :description, :image_url, :release_date, :like, :dislike, :user_id, :genre_id)
     end
 
     def render_not_found_response
