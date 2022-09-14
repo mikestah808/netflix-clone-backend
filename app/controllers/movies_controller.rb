@@ -7,15 +7,9 @@ class MoviesController < ApplicationController
     render json: movies
   end
 
-  # GET /movies/1
-  def show
-    movie = find_movie
-    render json: movie
-  end
-
   # POST /movies
   def create
-    movie = Movie.create!(movie_params)
+    movie = Movie.find_or_create_by!(movie_params)
     render json: movie, status: :created
   rescue ActiveRecord::RecordInvalid => e
     render json: { errors: e.record.errors.full_messages }, status: :unprocessable_entity
@@ -43,7 +37,7 @@ class MoviesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def movie_params
-      params.permit(:title, :description, :image_url, :release_date, :like, :dislike, :user_id, :genre_id)
+      params.permit(:title, :description, :image_url, :release_date, :like, :dislike, :genre_id)
     end
 
     def render_not_found_response

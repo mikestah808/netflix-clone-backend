@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :genres
   resources :movies
-  resources :users
+  resources :users, only:[:show, :create]
 
   post "/login", to: "sessions#create"
   get "/me", to: "users#show"

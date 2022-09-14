@@ -7,15 +7,9 @@ class GenresController < ApplicationController
     render json: genres
   end
 
-  # GET /genres/1
-  def show
-    genre = find_genre
-    render json: genre, include: :movies
-  end
-
   # POST /genres
   def create
-    genre = Genre.create!(genre_params)
+    genre = Genre.find_or_create_by!(genre_params)
     render json: genre, status: :created
   rescue ActiveRecord::RecordInvalid => e
     render json: { errors: e.record.errors.full_messages }, status: :unprocessable_entity
@@ -28,13 +22,6 @@ class GenresController < ApplicationController
     render json: genre
   end
 
-  # DELETE /genres/1
-  def destroy
-   genre = find_genre
-   genre.destroy
-   head :no_content
-  end
-
   private
     
     def find_genre
@@ -43,7 +30,7 @@ class GenresController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def genre_params
-      params.permit(:genre)
+      params.permit(:name)
     end
 
     def render_not_found_response
