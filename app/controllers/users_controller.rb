@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  require 'pry'
   # before_action :set_user, only: %i[ show update destroy ]
   rescue_from ActiveRecord::RecordNotFound, with: :render_unprocessable_entity
 
@@ -15,8 +16,8 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
-    user = User.create!(user_params)
-    render json: user, status: :created
+    # user = User.create!(user_params)
+    # render json: user, status: :created
   end
 
 
@@ -24,7 +25,7 @@ class UsersController < ApplicationController
     
     # Strong params
     def user_params
-      params.permit(:email, :password, :first_name, :last_name)
+      params.permit(:email, :password)
     end
   
     # Error handling
