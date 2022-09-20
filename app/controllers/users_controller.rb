@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   require 'pry'
   # before_action :set_user, only: %i[ show update destroy ]
-  rescue_from ActiveRecord::RecordNotFound, with: :render_unprocessable_entity
+  # rescue_from ActiveRecord::RecordNotFound, with: :render_unprocessable_entity
 
 
   # get current user
@@ -16,12 +16,12 @@ class UsersController < ApplicationController
 
   # signup
   def create
-    user = User.create!(user_params)
+    user = User.create(user_params)
     if user.valid?
       session[:user_id] = user.id
-      render json: user, status: :created
+      render json: user
     else
-      render json: { errors: user.errors.full_messages }
+      render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
@@ -30,13 +30,13 @@ class UsersController < ApplicationController
     
     # Strong params
     def user_params
-      params.permit(:email, :password, :password_confirmation)
+      params.permit(:first_name, :last_name, :email, :password)
     end
   
     # Error handling
-    def render_unprocessable_entity(invalid)
-      render json: {error: invalid.record.errors}, status: :unprocessable_entity
-    end
+    # def render_unprocessable_entity(invalid)
+    #   render json: {error: invalid.record.errors}, status: :unprocessable_entity
+    # end
 
 
 end
