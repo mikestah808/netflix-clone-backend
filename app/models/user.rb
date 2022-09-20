@@ -7,6 +7,6 @@ class User < ApplicationRecord
     has_secure_password 
 
     # Validations 
-    validates_presence_of :email
+    validates_presence_of :email, :password, :password_confirmation
     validates_uniqueness_of :email
 end

@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_unprocessable_entity
 
 
-  # GET /users/1
+  # get current user
   def show
     user = User.find_by(id: session[:user_id])
     if user
@@ -14,10 +14,15 @@ class UsersController < ApplicationController
     end
   end
 
-  # POST /users
+  # signup
   def create
-    # user = User.create!(user_params)
-    # render json: user, status: :created
+    user = User.create!(user_params)
+    if user.valid?
+      session[:user_id] = user.id
+      render json: user, status: :created
+    else
+      render json: { errors: user.errors.full_messages }
+    end
   end
 
 
@@ -25,7 +30,7 @@ class UsersController < ApplicationController
     
     # Strong params
     def user_params
-      params.permit(:email, :password)
+      params.permit(:email, :password, :password_confirmation)
     end
   
     # Error handling
