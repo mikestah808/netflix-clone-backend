@@ -1,5 +1,6 @@
 class MoviesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
+  require 'pry'
 
   # GET /movies
   def index
@@ -9,6 +10,7 @@ class MoviesController < ApplicationController
 
   # POST /movies
   def create
+    binding.pry
     movie = Movie.find_or_create_by!(movie_params)
     render json: movie, status: :created
   rescue ActiveRecord::RecordInvalid => e
@@ -37,7 +39,7 @@ class MoviesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def movie_params
-      params.permit(:title, :description, :image_url, :release_date, :like, :dislike, :genre_id)
+      params.permit(:title, :description, :image_url, :release_date, :genre_id)
     end
 
     def render_not_found_response

@@ -8,5 +8,5 @@ class User < ApplicationRecord
 
     # Validations 
     validates :email, :password, :first_name, :last_name, presence: true
-    validates_uniqueness_of :email
+    validates :email, uniqueness: true
 end

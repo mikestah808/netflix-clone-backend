@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_10_010734) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_24_205558) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -25,8 +25,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_10_010734) do
     t.string "description"
     t.string "image_url"
     t.integer "release_date"
-    t.boolean "like"
-    t.boolean "dislike"
     t.integer "user_id"
     t.integer "genre_id"
     t.datetime "created_at", null: false
