@@ -39,7 +39,7 @@ class MoviesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def movie_params
-      params.permit(:title, :description, :image_url, :release_date, :genre_id)
+      params.permit(:title, :description, :image_url, :release_date, :user_id, :genre_id)
     end
 
     def render_not_found_response
