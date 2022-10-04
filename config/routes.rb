@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   resources :users
   resources :movies, only: [:index, :create, :update, :destroy]
-  resources :genres, only:[:index, :create, :update]
+  resources :genres, only:[:index, :show, :create, :update]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

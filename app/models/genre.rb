@@ -4,5 +4,6 @@ class Genre < ApplicationRecord
     has_many :users, through: :movies
 
     #Validations 
-    validates :name, presence: true, uniqueness: true
+    validates :name, presence: true
+    validates_uniqueness_of :name
 end

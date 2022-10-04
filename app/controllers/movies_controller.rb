@@ -1,5 +1,6 @@
 class MoviesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
+  before_action :authorize
   require 'pry'
 
   # GET /movies
@@ -10,7 +11,8 @@ class MoviesController < ApplicationController
 
   # POST /movies
   def create
-    binding.pry
+    # binding.pry
+
     movie = Movie.find_or_create_by!(movie_params)
     render json: movie, status: :created
   rescue ActiveRecord::RecordInvalid => e
@@ -45,4 +47,9 @@ class MoviesController < ApplicationController
     def render_not_found_response
       render json: { error: "Movie not found" }, status: :not_found
     end
+
+    def authorize
+      return render json: { error: "Not authorized" }, status: :unauthorized unless session.include? :user_id
+    end
+    
 end
