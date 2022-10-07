@@ -1,13 +1,23 @@
 class GenresController < ApplicationController
+  # skip_before_action :authorized, only: :show
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
-  before_action :authorize
-
+  require 'pry'
 
   # GET /genres
   def index
-    genres = Genre.all
+    # binding.pry
+    user = User.find_by(id: session[:user_id])
+    genres = user.genres
     render json: genres
   end
+
+
+  # def index
+  #   # binding.pry
+  #   genres = Genre.all
+  #   render json: genres
+  # end
+
   # GET /genres/id
   def show  
     genre = Genre.find_by(id: params[:id])
@@ -16,7 +26,9 @@ class GenresController < ApplicationController
 
   # POST /genres
   def create
-      genre = Genre.find_or_create_by!(genre_params)
+    binding.pry
+      user = User.find_by(id: session[:user_id])
+      genre = user.genres.find_or_create_by!(genre_params)
       render json: genre, status: :created
       rescue ActiveRecord::RecordInvalid => e
       render json: { errors: e.record.errors.full_messages }, status: :unprocessable_entity

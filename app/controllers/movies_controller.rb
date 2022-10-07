@@ -1,19 +1,19 @@
 class MoviesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
-  before_action :authorize
   require 'pry'
 
   # GET /movies
   def index
-    movies = Movie.all
+    user = User.find_by(id: session[:user_id])
+    movies = user.movies
     render json: movies
   end
 
   # POST /movies
   def create
     # binding.pry
-
-    movie = Movie.find_or_create_by!(movie_params)
+    user = User.find_by(id: session[:user_id])
+    movie = user.movies.create!(movie_params)
     render json: movie, status: :created
   rescue ActiveRecord::RecordInvalid => e
     render json: { errors: e.record.errors.full_messages }, status: :unprocessable_entity

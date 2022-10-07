@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-    # skip_before_action :authorized, only: :created
+    skip_before_action :authorized, only: [:create]
 
 
     # look up a user in the database, verify their login credentials, and then store the authenticated user's id in the session:

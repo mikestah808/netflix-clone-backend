@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   require 'pry'
-  # before_action :set_user, only: %i[ show update destroy ]
+  skip_before_action :authorized, only: [:show]
+
   # rescue_from ActiveRecord::RecordNotFound, with: :render_unprocessable_entity
 
 
