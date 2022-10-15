@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   require 'pry'
-  skip_before_action :authorized, only: [:show]
+  skip_before_action :authorized, only: [:show, :create]
 
   # rescue_from ActiveRecord::RecordNotFound, with: :render_unprocessable_entity
 

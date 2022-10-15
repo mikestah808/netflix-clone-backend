@@ -3,6 +3,7 @@ class MoviesController < ApplicationController
   require 'pry'
 
   # GET /movies
+
   def index
     user = User.find_by(id: session[:user_id])
     movies = user.movies
