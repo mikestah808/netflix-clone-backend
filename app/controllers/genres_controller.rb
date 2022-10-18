@@ -9,14 +9,6 @@ class GenresController < ApplicationController
   # CONCLUSION: It is alright to skip the authorize instance method so the genre index action can run properly 
   skip_before_action :authorized, only: [:index]
 
-  # GET /genres
-  # def index
-  #   # binding.pry
-  #   user = User.find_by(id: session[:user_id])
-  #   genres = user.genres
-  #   render json: genres
-  # end
-
 
   def index
     # binding.pry
@@ -24,11 +16,6 @@ class GenresController < ApplicationController
     render json: genres
   end
 
-  # GET /genres/id
-  def show  
-    genre = Genre.find_by(id: params[:id])
-    render json: genre
-  end
 
   # POST /genres
   def create
@@ -38,18 +25,8 @@ class GenresController < ApplicationController
       render json: { errors: e.record.errors.full_messages }, status: :unprocessable_entity
   end
 
-  def destroy
-    genre = find_genre
-    genre.destroy
-    head :no_content
-  end
-
 
   private
-    
-    def find_genre
-      Genre.find(params[:id])
-    end
 
     # Only allow a list of trusted parameters through.
     def genre_params
@@ -58,10 +35,6 @@ class GenresController < ApplicationController
 
     def render_not_found_response
       render json: { error: "Genre not found" }, status: :not_found
-    end
-
-    def authorize
-      return render json: { error: "Not authorized" }, status: :unauthorized unless session.include? :user_id
     end
 
 end
