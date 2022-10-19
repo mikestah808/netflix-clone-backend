@@ -2,9 +2,6 @@ class UsersController < ApplicationController
   require 'pry'
   skip_before_action :authorized, only: [:show, :create]
 
-  # rescue_from ActiveRecord::RecordNotFound, with: :render_unprocessable_entity
-
-
   # get current user
   def show
     user = User.find_by(id: session[:user_id])
@@ -34,8 +31,4 @@ class UsersController < ApplicationController
       params.permit(:first_name, :last_name, :email, :password)
     end
   
-    # Error handling
-    # def render_unprocessable_entity(invalid)
-    #   render json: {error: invalid.record.errors}, status: :unprocessable_entity
-    # end
 end
