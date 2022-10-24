@@ -22,23 +22,28 @@ class MoviesController < ApplicationController
 
   # PATCH/PUT /movies/1
   def update
-    movie = find_movie
+    user = User.find_by(id: session[:user_id])
+    movie = user.movies.find_by(id: params[:id])
     movie.update(movie_params)
     render json: movie
   end
 
   # DELETE /movies/1
   def destroy
-    movie = find_movie
+    user = User.find_by(id: session[:user_id])
+    movie = user.movies.find_by(id: params[:id])
     movie.destroy
     head :no_content
   end
 
   private
+      # the purpose of using .find OVER .find_by is that the latter will return a value of nil, whereas .find will raise an Active Record exception.
+      # this is important because we can rescue the exception with the code at the top of our movies controller, then have the render_not_found_response instance method return an error 
+      # it's a good way to DRY up our code 
 
-    def find_movie
-      Movie.find(params[:id])
-    end
+    # def find_movie
+    #   Movie.find_by(id: params[:id])
+    # end
 
     # Only allow a list of trusted parameters through.
     def movie_params
