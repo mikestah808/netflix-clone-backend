@@ -10,6 +10,13 @@ class MoviesController < ApplicationController
     render json: movies
   end
 
+  def even_movies
+    user = User.find_by(id: session[:user_id])
+    even_movies = user.movies.select { |movie| movie.release_date % 2 == 0 }
+    render json: even_movies
+    # Book.where("title = ?", params[:title])
+  end
+
   # POST /movies
   def create
     # binding.pry
