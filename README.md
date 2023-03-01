@@ -15,6 +15,10 @@ Run rails db:migrate db:seed
 run rails s 
 If you haven't already, follow directions from frontend [https://github.com/mikestah808/netflix-clone-frontend]
 
+## Video Demo Link
+
+https://youtu.be/MalTtjLdAaM
+
 ### Licensing (MIT)
 
 Copyright (c) 2022
