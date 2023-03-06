@@ -1,6 +1,7 @@
 class GenreSerializer < ActiveModel::Serializer
+  require 'pry'
   attributes :id, :name
 
   has_many :movies 
-  # has_many :users, through: :movies
+
 end

@@ -2,8 +2,7 @@ class User < ApplicationRecord
      # Associations
     has_many :movies
     has_many :genres, through: :movies
-
-    # Macro method 
+    
     has_secure_password 
 
     # Validations 
